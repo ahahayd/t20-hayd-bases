@@ -1,0 +1,77 @@
+{
+  "id": "t20-hayd-bases",
+  "title": "T20 Hayd Bases (Heróis de Arton)",
+  "description": "<p>Novo tipo de ator 'Base — HayD' com automação completa das regras de Bases do capítulo 3 do Heróis de Arton: portes, tipos, segurança, manutenção, cômodos, mobílias, moradores com distribuição de benefícios via Efeitos Ativos, ações entre aventuras e suporte a homebrews.</p>",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "Sr. HCT",
+      "flags": {}
+    }
+  ],
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "relationships": {
+    "systems": [
+      {
+        "id": "tormenta20",
+        "type": "system",
+        "compatibility": {}
+      }
+    ]
+  },
+  "documentTypes": {
+    "Actor": {
+      "base-hayd": {
+        "htmlFields": [
+          "detalhes.biography",
+          "detalhes.notas"
+        ]
+      }
+    }
+  },
+  "esmodules": [
+    "scripts/main.mjs"
+  ],
+  "styles": [
+    {
+      "src": "styles/bases.css"
+    }
+  ],
+  "languages": [
+    {
+      "lang": "pt-BR",
+      "name": "Português (Brasil)",
+      "path": "lang/pt-BR.json",
+      "flags": {}
+    },
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/pt-BR.json",
+      "flags": {}
+    }
+  ],
+  "flags": {
+    "hotReload": {
+      "extensions": [
+        "css",
+        "hbs",
+        "json"
+      ],
+      "paths": [
+        "styles",
+        "templates",
+        "lang"
+      ]
+    }
+  },
+  "url": "https://github.com/Haydgi/t20-hayd-bases",
+  "manifest": "https://raw.githubusercontent.com/Haydgi/t20-hayd-bases/main/module.json",
+  "download": "https://github.com/Haydgi/t20-hayd-bases/archive/refs/heads/main.zip",
+  "readme": "https://github.com/Haydgi/t20-hayd-bases/blob/main/README.md",
+  "bugs": "https://github.com/Haydgi/t20-hayd-bases/issues",
+  "license": "MIT"
+}
