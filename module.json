@@ -68,10 +68,10 @@
       ]
     }
   },
-  "url": "https://github.com/Haydgi/t20-hayd-bases",
-  "manifest": "https://raw.githubusercontent.com/Haydgi/t20-hayd-bases/main/module.json",
-  "download": "https://github.com/Haydgi/t20-hayd-bases/archive/refs/heads/main.zip",
-  "readme": "https://github.com/Haydgi/t20-hayd-bases/blob/main/README.md",
-  "bugs": "https://github.com/Haydgi/t20-hayd-bases/issues",
+  "url": "https://github.com/ahahayd/t20-hayd-bases",
+  "manifest": "https://raw.githubusercontent.com/ahahayd/t20-hayd-bases/main/module.json",
+  "download": "https://github.com/ahahayd/t20-hayd-bases/archive/refs/heads/main.zip",
+  "readme": "https://github.com/ahahayd/t20-hayd-bases/blob/main/README.md",
+  "bugs": "https://github.com/ahahayd/t20-hayd-bases/issues",
   "license": "MIT"
 }

@@ -9,7 +9,7 @@ Módulo para **FoundryVTT v13** + sistema **Tormenta20** que implementa as regra
 Em *Configurar → Módulos Complementares → Instalar Módulo*, cole a URL do manifesto:
 
 ```
-https://raw.githubusercontent.com/Haydgi/t20-hayd-bases/main/module.json
+https://raw.githubusercontent.com/ahahayd/t20-hayd-bases/main/module.json
 ```
 
 Depois: ative o módulo no mundo e crie um ator do tipo **Base — HayD (Heróis de Arton)**.
