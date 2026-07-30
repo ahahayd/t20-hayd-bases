@@ -1,12 +1,12 @@
 {
   "id": "t20-hayd-bases",
   "title": "T20 Hayd Bases (Heróis de Arton)",
-  "description": "<p>Novo tipo de ator 'Base — HayD' com automação completa das regras de Bases do capítulo 3 do Heróis de Arton: portes, tipos, segurança, manutenção, cômodos, mobílias, moradores com distribuição de benefícios via Efeitos Ativos, ações entre aventuras e suporte a homebrews.</p>",
+  "description": "<p>Novo tipo de ator \"Base\" com automação completa das regras de Bases do capítulo 3 do Heróis de Arton (pp. 244–251): portes, tipos, segurança, manutenção, cômodos, mobílias, moradores com distribuição de benefícios via Efeitos Ativos, ações entre aventuras e suporte a homebrews.</p>",
   "version": "1.0.0",
   "authors": [
     {
-      "name": "Sr. HCT",
-      "flags": {}
+      "name": "Hayd",
+      "url": "https://github.com/ahahayd"
     }
   ],
   "compatibility": {
@@ -18,7 +18,9 @@
       {
         "id": "tormenta20",
         "type": "system",
-        "compatibility": {}
+        "compatibility": {
+          "minimum": "1.5.0"
+        }
       }
     ]
   },
@@ -69,8 +71,8 @@
     }
   },
   "url": "https://github.com/ahahayd/t20-hayd-bases",
-  "manifest": "https://raw.githubusercontent.com/ahahayd/t20-hayd-bases/main/module.json",
-  "download": "https://github.com/ahahayd/t20-hayd-bases/archive/refs/heads/main.zip",
+  "manifest": "https://github.com/ahahayd/t20-hayd-bases/releases/latest/download/module.json",
+  "download": "https://github.com/ahahayd/t20-hayd-bases/releases/download/v1.0.0/module.zip",
   "readme": "https://github.com/ahahayd/t20-hayd-bases/blob/main/README.md",
   "bugs": "https://github.com/ahahayd/t20-hayd-bases/issues",
   "license": "MIT"
