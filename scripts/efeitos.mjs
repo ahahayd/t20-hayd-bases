@@ -117,7 +117,7 @@ export function montarEfeitosPara(base, uuidMorador) {
           extras.push(`${mDef.nome} (efeito de uso)`);
         }
       }
-      changes.unshift({ key: "system.attributes.pv.max", mode: ADD, value: String(pv) });
+      changes.unshift({ key: "system.attributes.pv.bonus.total", mode: ADD, value: String(pv) });
       efeitos.push(novoEfeito(base, def.nome,
         `+${pv} PV e descanso confortável.${extras.length ? ` Inclui: ${extras.join(", ")}.` : ""}`,
         changes, `comodo:${com.id}`));

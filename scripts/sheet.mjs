@@ -635,7 +635,7 @@ export class BaseSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
            <div class="form-group"><label>Cômodos válidos (chaves separadas por vírgula; vazio = qualquer; "exterior" = fora)</label>
              <input type="text" name="locais" placeholder="sala-de-estar, suite"></div>`}
       <fieldset class="t20b-fieldset"><legend>Efeitos Ativos nos moradores (opcional)</legend>
-        <p class="notes">Use os caminhos do sistema (ex.: <code>system.pericias.luta.bonus</code>, <code>system.attributes.pm.max</code>). Para modificadores gerais, use valores como <code>+1</code>.</p>
+        <p class="notes">Use os caminhos do sistema (ex.: <code>system.pericias.luta.bonus</code>, <code>system.attributes.pm.bonus.total</code>). Para modificadores gerais, use valores como <code>+1</code>.</p>
         ${linhasEfeito}
       </fieldset>
       </div>`;

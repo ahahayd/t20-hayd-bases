@@ -4,7 +4,7 @@
  *
  * Caminhos de Efeitos Ativos usam as variáveis oficiais do sistema:
  *  - Perícias (somar/subtrair): system.pericias.X.bonus
- *  - PV/PM máximos: system.attributes.pv.max / system.attributes.pm.max
+ *  - PV/PM máximos: system.attributes.pv.bonus.total / system.attributes.pm.bonus.total
  *  - Defesa: system.attributes.defesa.bonus
  *  - Carga: system.attributes.carga.bonus
  *  - Itens vestidos: system.equipamentos.limiteVestido
@@ -120,7 +120,7 @@ export const TIPOS = {
     nome: "Centro de Poder",
     desc: "Construída sobre um centro de energias mágicas, como um bosque feérico, solo sagrado ou intersecção de linhas energéticas.",
     beneficio: "Os residentes recebem +1 PM",
-    efeito: fx([{ key: "system.attributes.pm.max", mode: ADD, value: "1" }])
+    efeito: fx([{ key: "system.attributes.pm.bonus.total", mode: ADD, value: "1" }])
   },
   "empreendimento": {
     nome: "Empreendimento",
@@ -151,7 +151,7 @@ export const TIPOS = {
     nome: "Residência",
     desc: "Um local confortável e aconchegante, onde os aventureiros podem descansar e relaxar.",
     beneficio: "Cada residente recebe +3 PV e, 1×/aventura, os benefícios de um prato especial",
-    efeito: fx([{ key: "system.attributes.pv.max", mode: ADD, value: "3" }],
+    efeito: fx([{ key: "system.attributes.pv.bonus.total", mode: ADD, value: "3" }],
       { nota: "O prato especial (1×/aventura) é aplicado manualmente." })
   }
 };
@@ -353,7 +353,7 @@ export const MOBILIAS = {
       desc: "1×/aventura, em um teste de Fortitude: rola dois d20 e usa o melhor" }] },
   "bar": { nome: "Bar", preco: 1000, locais: ["sala-de-estar", "salao-de-baile", "sala-de-jogos"],
     beneficio: "Fornece +1 PM para os residentes",
-    efeito: fx([{ key: "system.attributes.pm.max", mode: ADD, value: "1" }]) },
+    efeito: fx([{ key: "system.attributes.pm.bonus.total", mode: ADD, value: "1" }]) },
   "bau-reforcado": { nome: "Baú Reforçado", preco: 300, locais: ["despensa"],
     beneficio: "Aumenta o bônus de limite de carga da despensa para 3 espaços",
     efeito: fx([{ key: "system.attributes.carga.bonus", mode: ADD, value: "1" }]) },
@@ -468,8 +468,8 @@ export const TIPOS_CAPITAO = ["Atirador", "Combatente", "Fortão", "Guardião"];
 
 /** Caminhos comuns para o construtor de homebrews. */
 export const CAMINHOS_SUGERIDOS = [
-  { key: "system.attributes.pv.max", rotulo: "PV máximos" },
-  { key: "system.attributes.pm.max", rotulo: "PM máximos" },
+  { key: "system.attributes.pv.bonus.total", rotulo: "PV máximos" },
+  { key: "system.attributes.pm.bonus.total", rotulo: "PM máximos" },
   { key: "system.attributes.defesa.bonus", rotulo: "Defesa (bônus)" },
   { key: "system.attributes.carga.bonus", rotulo: "Carga (bônus)" },
   { key: "system.equipamentos.limiteVestido", rotulo: "Itens vestidos" },
