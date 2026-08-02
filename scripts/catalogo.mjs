@@ -488,14 +488,29 @@ export const CAMINHOS_SUGERIDOS = [
 /* Acesso unificado (catálogo + homebrews da base)                    */
 /* ================================================================== */
 
+/* Sem homebrews, devolve o catálogo estático direto; com homebrews, a
+ * mescla é cacheada por referência do array (o DataModel recria o array
+ * a cada update da base, invalidando o cache automaticamente). Antes, a
+ * mescla de ~40 entradas rodava a cada prepareDerivedData e render. */
+const _cacheComodos = new WeakMap();
+const _cacheMobilias = new WeakMap();
+
+function catalogoMesclado(estatico, homebrews, cache) {
+  if (!homebrews?.length) return estatico;
+  let mesclado = cache.get(homebrews);
+  if (!mesclado) {
+    const extra = {};
+    for (const hb of homebrews) extra[hb.key] = hb;
+    mesclado = { ...estatico, ...extra };
+    cache.set(homebrews, mesclado);
+  }
+  return mesclado;
+}
+
 export function obterComodos(base) {
-  const extra = {};
-  for (const hb of base?.system?.homebrew?.comodos ?? []) extra[hb.key] = hb;
-  return { ...COMODOS, ...extra };
+  return catalogoMesclado(COMODOS, base?.system?.homebrew?.comodos, _cacheComodos);
 }
 
 export function obterMobilias(base) {
-  const extra = {};
-  for (const hb of base?.system?.homebrew?.mobilias ?? []) extra[hb.key] = hb;
-  return { ...MOBILIAS, ...extra };
+  return catalogoMesclado(MOBILIAS, base?.system?.homebrew?.mobilias, _cacheMobilias);
 }

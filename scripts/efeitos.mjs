@@ -204,18 +204,25 @@ async function limparEfeitosDe(base, ator) {
  * receber benefícios (recria do zero para refletir o estado atual).
  */
 export async function sincronizarEfeitos(base, { silencioso = false } = {}) {
-  let criados = 0, removidos = 0, atores = 0;
-  for (const res of base.system.residentes) {
+  /* Moradores são atores independentes: o trabalho de cada um roda em
+   * paralelo (a ordem remover→criar é preservada DENTRO de cada ator).
+   * Em série, cada morador somava 2–3 idas ao servidor à espera total. */
+  const resultados = await Promise.all(base.system.residentes.map(async (res) => {
     const ator = await obterMorador(res.uuid);
-    if (!ator) continue;
-    removidos += await limparEfeitosDe(base, ator);
-    if (res.receberEfeitos === false) continue;
+    if (!ator) return null;
+    const removidos = await limparEfeitosDe(base, ator);
+    if (res.receberEfeitos === false) return { removidos, criados: 0, conta: false };
     const efeitos = montarEfeitosPara(base, res.uuid);
-    if (efeitos.length) {
-      await ator.createEmbeddedDocuments("ActiveEffect", efeitos);
-      criados += efeitos.length;
-    }
-    atores++;
+    if (efeitos.length) await ator.createEmbeddedDocuments("ActiveEffect", efeitos);
+    return { removidos, criados: efeitos.length, conta: true };
+  }));
+
+  let criados = 0, removidos = 0, atores = 0;
+  for (const r of resultados) {
+    if (!r) continue;
+    removidos += r.removidos;
+    criados += r.criados;
+    if (r.conta) atores++;
   }
   console.debug(`${MODULO} | Sincronização: ${removidos} efeitos removidos, ${criados} criados em ${atores} morador(es).`);
   if (!silencioso) ui.notifications.info(`Base: benefícios sincronizados com ${atores} morador(es) (${criados} efeitos).`);
@@ -224,13 +231,13 @@ export async function sincronizarEfeitos(base, { silencioso = false } = {}) {
 
 /** Remove os efeitos da base de todos os moradores (e de um extra opcional). */
 export async function removerEfeitos(base, uuidExtra = null) {
-  let removidos = 0;
   const uuids = new Set(base.system.residentes.map(r => r.uuid));
   if (uuidExtra) uuids.add(uuidExtra);
-  for (const uuid of uuids) {
+  const contagens = await Promise.all([...uuids].map(async (uuid) => {
     const ator = await obterMorador(uuid);
-    if (ator) removidos += await limparEfeitosDe(base, ator);
-  }
+    return ator ? limparEfeitosDe(base, ator) : 0;
+  }));
+  const removidos = contagens.reduce((t, n) => t + n, 0);
   console.debug(`${MODULO} | ${removidos} efeito(s) removido(s).`);
   return removidos;
 }

@@ -2,7 +2,7 @@
   "id": "t20-hayd-bases",
   "title": "T20 Hayd Bases (Heróis de Arton)",
   "description": "<p>Novo tipo de ator \"Base\" com automação completa das regras de Bases do capítulo 3 do Heróis de Arton (pp. 244–251): portes, tipos, segurança, manutenção, cômodos, mobílias, moradores com distribuição de benefícios via Efeitos Ativos, ações entre aventuras e suporte a homebrews.</p>",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "authors": [
     {
       "name": "Hayd",
@@ -72,7 +72,7 @@
   },
   "url": "https://github.com/ahahayd/t20-hayd-bases",
   "manifest": "https://github.com/ahahayd/t20-hayd-bases/releases/latest/download/module.json",
-  "download": "https://github.com/ahahayd/t20-hayd-bases/releases/download/v1.0.1/module.zip",
+  "download": "https://github.com/ahahayd/t20-hayd-bases/releases/download/v1.0.2/module.zip",
   "readme": "https://github.com/ahahayd/t20-hayd-bases/blob/main/README.md",
   "bugs": "https://github.com/ahahayd/t20-hayd-bases/issues",
   "license": "MIT"

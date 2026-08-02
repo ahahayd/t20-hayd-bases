@@ -288,7 +288,8 @@ export async function acaoReformar(base) {
 /** Valida os pré-requisitos de um cômodo. Retorna string de erro ou null. */
 export function validarComodo(base, key) {
   const s = base.system;
-  const def = obterComodos(base)[key];
+  const catalogo = obterComodos(base);
+  const def = catalogo[key];
   if (!def) return "Cômodo desconhecido.";
   if (s.comodos.length >= s.maxComodos)
     return `Limite de cômodos do porte atingido (${s.maxComodos}).`;
@@ -297,7 +298,7 @@ export function validarComodo(base, key) {
   if (def.prereqPorte && rankPorte(s.porte) < rankPorte(def.prereqPorte))
     return `Requer base ${PORTES[def.prereqPorte].nome} ou melhor.`;
   for (const p of def.prereqComodos ?? []) {
-    if (!s.comodos.some(c => c.key === p)) return `Requer: ${obterComodos(base)[p]?.nome ?? p}.`;
+    if (!s.comodos.some(c => c.key === p)) return `Requer: ${catalogo[p]?.nome ?? p}.`;
   }
   if (def.prereqTipo && s.tipo !== def.prereqTipo)
     return `Requer base do tipo ${TIPOS[def.prereqTipo]?.nome ?? def.prereqTipo}.`;

@@ -100,19 +100,19 @@ export class BaseSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       { id: "ajuda", rotulo: "Regras", icone: "fa-circle-question" }
     ].map(a => ({ ...a, ativa: this.tabGroups.primary === a.id }));
 
-    /* Moradores enriquecidos */
-    const moradores = [];
-    for (const res of s.residentes) {
+    /* Moradores enriquecidos (resolvidos em paralelo — antes cada um
+     * esperava o anterior, a cada render da ficha) */
+    const moradores = await Promise.all(s.residentes.map(async (res) => {
       const ator = await obterMorador(res.uuid);
-      moradores.push({
+      return {
         ...res,
         nome: ator?.name ?? res.nome ?? "(ator não encontrado)",
         img: ator?.img ?? "icons/svg/mystery-man.svg",
         existe: !!ator,
         recebe: res.receberEfeitos !== false,
         qtdEfeitos: ator ? montarEfeitosPara(actor, res.uuid).length : 0
-      });
-    }
+      };
+    }));
 
     /* Cômodos enriquecidos */
     const comodos = s.comodos.map(c => {
@@ -210,9 +210,22 @@ export class BaseSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       lembretes: this.#coletarLembretes(actor, catC, catM),
       campoBiografia: s.schema.getField("detalhes.biography"),
       campoNotas: s.schema.getField("detalhes.notas"),
-      biografiaHTML: await foundry.applications.ux.TextEditor.implementation.enrichHTML(s.detalhes.biography, { async: true }),
-      notasHTML: await foundry.applications.ux.TextEditor.implementation.enrichHTML(s.detalhes.notas, { async: true })
+      biografiaHTML: await this.#enriquecer("biografia", s.detalhes.biography),
+      notasHTML: await this.#enriquecer("notas", s.detalhes.notas)
     });
+  }
+
+  /* enrichHTML é o item mais caro do contexto (parse completo + resolução
+   * de links) e rodava a CADA render, mesmo sem o texto mudar. Cache por
+   * campo, chaveado no texto-fonte exato. */
+  #cacheEnrich = {};
+
+  async #enriquecer(campo, fonte) {
+    const cache = this.#cacheEnrich[campo];
+    if (cache && cache.fonte === fonte) return cache.html;
+    const html = await foundry.applications.ux.TextEditor.implementation.enrichHTML(fonte, { async: true });
+    this.#cacheEnrich[campo] = { fonte, html };
+    return html;
   }
 
   #coletarLembretes(actor, catC, catM) {
@@ -550,12 +563,15 @@ export class BaseSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     });
     if (!ok) return;
     await removerEfeitos(this.actor, uuid);
-    await this.actor.update({ "system.residentes": this.actor.system.residentes.filter(r => r.uuid !== uuid) });
-    /* Retira o morador de suítes onde estava atribuído */
+    /* Um único update: lista de moradores + retirada das suítes onde o
+     * morador estava (antes eram dois updates = dois re-renders). */
     const comodos = this.actor.system.comodos.map(c => ({
       ...c, suiteResidentes: (c.suiteResidentes ?? []).filter(u => u !== uuid)
     }));
-    await this.actor.update({ "system.comodos": comodos });
+    await this.actor.update({
+      "system.residentes": this.actor.system.residentes.filter(r => r.uuid !== uuid),
+      "system.comodos": comodos
+    });
     if (game.settings.get(MODULO, "sincronizarAuto")) await sincronizarEfeitos(this.actor, { silencioso: true });
   }
 
